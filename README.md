@@ -3,6 +3,9 @@ A short script for finding triangle arbitrage  opportunities in Binance
 , which is heavily inspired from [this](https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7)
  gist.
 
+## Requirements
+- Docker
+
 ## Usage
 
 - You can set the primary coins by modifying primary.txt. It should look
