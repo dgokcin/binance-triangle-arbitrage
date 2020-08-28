@@ -1,6 +1,7 @@
 # binance-triangle-arbitrage
 A short script for finding triangle arbitrage  opportunities in Binance
-. Heavily inspired from [this](https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7) gist.
+, which is heavily inspired from [this](https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7)
+ gist.
 
 ## Usage
 
@@ -15,15 +16,15 @@ USDT
 ETH
 ```
 
-- After adjusting your primary coins, build the container with:
+- After adjusting your primary coins, run the following command
 ```shell script
-docker build -t binance .
+docker run -v "$(pwd)"/primary.txt:/app/primary.txt \
+denizgokcin/binance-triangle-arbitrage:latest
 ```
 
-- Once your container is built, mount the primary.txt as a volume for your
- container.
- ```shell script
-docker run -v "$(pwd)"/primary.txt:/app/primary.txt binance
+- If you want to build the container, you can build it with:
+```shell script
+docker build -t binance .
 ```
 
 - The output should look something similar to:
