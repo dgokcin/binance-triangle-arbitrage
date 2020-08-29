@@ -26,6 +26,8 @@ ETH
 - After adjusting your primary coins, run the following command
 ```shell script
 docker run -v "$(pwd)"/primary.txt:/app/primary.txt \
+-e PUBLIC_KEY=<YOUR_PUBLIC_API_KEY> \
+-e SECRET_KEY=<YOUR_SECRET_API_KEY> \
 denizgokcin/binance-triangle-arbitrage:latest
 ```
 

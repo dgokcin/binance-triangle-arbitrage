@@ -1,13 +1,19 @@
 from collections import defaultdict
 from operator import itemgetter
 from time import time
+import os
 
 from binance.client import Client
 
+API_PUBLIC = os.environ.get("PUBLIC_KEY")
+API_SECRET = os.environ.get("SECRET_KEY")
+
 FEE = 0.0005
+
 with open('primary.txt') as f:
     PRIMARY = [line.rstrip() for line in f]
-# PRIMARY = ['XRP', 'OMG', 'BTC', 'BNB', 'USDT', 'ETH']
+
+client = Client(API_PUBLIC, API_SECRET)
 
 
 def main():
@@ -29,7 +35,6 @@ def main():
 
 
 def get_prices():
-    client = Client(None, None)
     prices = client.get_orderbook_tickers()
     prepared = defaultdict(dict)
     for ticker in prices:
@@ -80,6 +85,34 @@ def describe_triangle(prices, triangle):
         second = coins[i + 1]
         print(f"     {second:4} / {first:4}: {prices[first][second]:-17.8f}")
     print('')
+
+
+def buy_limit(symbol, quantity, buy_price):
+    order = client.order_limit_buy(symbol, quantity, buy_price)
+
+    #   Buy order created.
+    return order['order_id']
+
+
+def sell_limit(symbol, quantity, sell_price):
+    order = client.order_limit_sell(symbol, quantity, sell_price)
+
+    #   Sell order created.
+    return order
+
+
+def buy_market(symbol, quantity):
+    order = client.order_market_buy(symbol, quantity)
+
+    #   Buy order created.
+    return order
+
+
+def sell_market(symbol, quantity):
+    order = client.order_market_sell(symbol, quantity)
+
+    #   Sell order created.
+    return order
 
 
 if __name__ == '__main__':
