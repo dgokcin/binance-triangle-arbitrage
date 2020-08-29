@@ -1,4 +1,8 @@
 # binance-triangle-arbitrage
+![](https://img.shields.io/docker/cloud/build/denizgokcin/binance-triangle-arbitrage)
+![](https://img.shields.io/docker/v/denizgokcin/binance-triangle-arbitrage)
+![](https://img.shields.io/docker/image-size/denizgokcin/binance-triangle-arbitrage)
+
 A short script for finding triangle arbitrage  opportunities in Binance
 , which is heavily inspired from [this](https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7)
  gist.
