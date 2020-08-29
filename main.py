@@ -24,7 +24,8 @@ def main():
         for triangle in sorted(triangles, key=itemgetter('profit'), reverse=True):
             describe_triangle(prices, triangle)
     else:
-        print("No triangles found, try again!")
+        print("No triangles found, trying again!")
+        main()
 
 
 def get_prices():
