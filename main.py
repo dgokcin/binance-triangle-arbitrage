@@ -4,11 +4,14 @@ from time import time
 import os
 
 from binance.client import Client
+import binance_api as api
 
 API_PUBLIC = os.environ.get("PUBLIC_KEY")
 API_SECRET = os.environ.get("SECRET_KEY")
 
 FEE = 0.0005
+PERCENTAGE = 5  # percentage of the primary coin budget to use for arbitrage.
+STARTING_COIN = 'BTC'
 
 with open('primary.txt') as f:
     PRIMARY = [line.rstrip() for line in f]
@@ -53,7 +56,7 @@ def get_prices():
 
 def find_triangles(prices):
     triangles = []
-    starting_coin = 'BTC'
+    starting_coin = STARTING_COIN
     for triangle in recurse_triangle(prices, starting_coin, starting_coin):
         coins = set(triangle['coins'])
         if not any(prev_triangle == coins for prev_triangle in triangles):
@@ -79,40 +82,13 @@ def recurse_triangle(prices, current_coin, starting_coin, depth_left=3, amount=1
 def describe_triangle(prices, triangle):
     coins = triangle['coins']
     price_percentage = (triangle['profit'] - 1.0) * 100
+    api.execute_triangular_arbitrage(coins, PERCENTAGE, STARTING_COIN)
     print(f"{'->'.join(coins):26} {round(price_percentage, 4):-7}% <- profit!")
     for i in range(len(coins) - 1):
         first = coins[i]
         second = coins[i + 1]
         print(f"     {second:4} / {first:4}: {prices[first][second]:-17.8f}")
     print('')
-
-
-def buy_limit(symbol, quantity, buy_price):
-    order = client.order_limit_buy(symbol, quantity, buy_price)
-
-    #   Buy order created.
-    return order['order_id']
-
-
-def sell_limit(symbol, quantity, sell_price):
-    order = client.order_limit_sell(symbol, quantity, sell_price)
-
-    #   Sell order created.
-    return order
-
-
-def buy_market(symbol, quantity):
-    order = client.order_market_buy(symbol, quantity)
-
-    #   Buy order created.
-    return order
-
-
-def sell_market(symbol, quantity):
-    order = client.order_market_sell(symbol, quantity)
-
-    #   Sell order created.
-    return order
 
 
 if __name__ == '__main__':
