@@ -16,6 +16,11 @@ def execute_triangular_arbitrage(coins, percentage, starting_coin):
           starting_coin + " is: " + f"{budget:.9f}" + " " + starting_coin +
           ".")
 
+    # TODO:
+    #   - Buy coins[1] with coins[0] with a budget of budget.
+    #   - Sell all coins[1] in (coins[1] + coins[2]) market.
+    #   - Buy coins[3] in (coins[2] + coins[3]) market.
+
 
 def buy_limit(symbol, quantity, buy_price):
     order = client.order_limit_buy(symbol, quantity, buy_price)
