@@ -19,6 +19,49 @@ with open('primary.txt') as f:
 client = Client(API_PUBLIC, API_SECRET)
 
 
+def execute_triangular_arbitrage(coins, percentage, starting_coin):
+    free = client.get_asset_balance(starting_coin)['free']
+    budget = (float(free) / 100) * percentage
+
+    print("The " + str(percentage) + "% of your total " + str(free) + " " +
+          starting_coin + " is: " + f"{budget:.9f}" + " " + starting_coin +
+          ".")
+
+    # TODO:
+    #   - Buy coins[1] with coins[0] with a budget of budget.
+    #   - Sell all coins[1] in (coins[1] + coins[2]) market.
+    #   - Buy coins[3] in (coins[2] + coins[3]) market.
+
+    #   not sure about how to determine to the price parameter.
+    #   not sure which method to use, LIMIT or MARKET
+    #   note that this is not an actual order but a test order.
+    # TODO:
+    #   - you need to figure out a relationship between budget and price.
+    #   - you need to make sure that coins[i] + coins[j] market exist(
+    #   BNB->COMP) does not exist.
+    #
+
+    # buy_order_limit = client.create_test_order(symbol=coins[1] + coins[0],
+    #                                            side='BUY',
+    #                                            type='LIMIT',
+    #                                            timeInForce='GTC',
+    #                                            quantity=0.5,
+    #                                            price=0.00001)
+
+    #   note that this is an actual order
+    # buy_order_limit = client.order_limit_buy(symbol=coins[1] + coins[0],
+    #                                          quantity=budget,
+    #                                          price=200)
+
+    # amount = client.get_asset_balance(coins[1])['free']
+    # sell_order_limit = client.create_test_order(symbol=coins[0] + coins[1],
+    #                                             side='SELL',
+    #                                             type='LIMIT',
+    #                                             timeInForce='GTC',
+    #                                             quantity=api._format(amount),
+    #                                             price=200)
+
+
 def main():
     start_time = time()
 
@@ -82,7 +125,7 @@ def recurse_triangle(prices, current_coin, starting_coin, depth_left=3, amount=1
 def describe_triangle(prices, triangle):
     coins = triangle['coins']
     price_percentage = (triangle['profit'] - 1.0) * 100
-    api.execute_triangular_arbitrage(coins, PERCENTAGE, STARTING_COIN)
+    execute_triangular_arbitrage(coins, PERCENTAGE, STARTING_COIN)
     print(f"{'->'.join(coins):26} {round(price_percentage, 4):-7}% <- profit!")
     for i in range(len(coins) - 1):
         first = coins[i]
